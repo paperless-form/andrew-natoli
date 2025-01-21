@@ -87,19 +87,41 @@ body {
 }
 
 .result-item {
-    padding: 0.75rem 1rem;
+    padding: 1rem;
     background: var(--bg-color);
     border: 1px solid var(--border-color);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .result-item:hover {
     border-color: var(--primary-color);
     background: rgba(255, 107, 53, 0.1);
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-info strong {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.item-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.category {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
 /* Table styling */
@@ -114,19 +136,18 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
-    background: var(--card-bg);
 }
 
 th, td {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem;
     text-align: left;
     border: 1px solid var(--border-color);
+    font-size: 0.9rem;
 }
 
-th {
-    background: var(--bg-color);
-    font-weight: 500;
+td:first-child {
     color: var(--primary-color);
+    font-weight: 500;
 }
 
 /* Button styling */
@@ -210,6 +231,18 @@ button:hover {
     button {
         width: 100%;
     }
+    
+    .item-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
 
 /* Add this to ensure all elements respect border-box */
@@ -247,4 +280,77 @@ button:hover {
 
 em {
     font-style: italic;
+}
+
+@keyframes highlightFade {
+    0% { background-color: rgba(40, 167, 69, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.highlight-new {
+    animation: highlightFade 2s ease-out;
+}
+
+tr.highlight-new td {
+    background-color: rgba(40, 167, 69, 0.2);
+    transition: background-color 2s ease-out;
+}
+
+/* Add these new styles */
+.initial-loading {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    margin: 0 auto 1rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.error-state p {
+    margin-bottom: 1rem;
+    color: #ff4444;
+}
+
+.error-state button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.error-state button:hover {
+    background-color: var(--primary-hover);
+}
+
+.selected-tick {
+    color: #28a745;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.result-item:has(.selected-tick) {
+    cursor: default;
+    opacity: 0.7;
 } 
