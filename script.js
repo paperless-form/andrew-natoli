@@ -2,12 +2,32 @@
 async function fetchClauseData() {
     try {
         const response = await fetch('https://script.google.com/macros/s/AKfycbzd7N3r6wgHPtx6VgwPlAyYQNna5cHHHPtimXnbhsqXFcsKZHRU6jKouC4tWwuXERk/exec');
-        const data = await response.json();
-        console.log(data.data);
+        
+        // Check if response is ok
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        // Log the raw response for debugging
+        const rawText = await response.text();
+        
+        // Try to parse the response
+        let data;
+        try {
+            data = JSON.parse(rawText);
+        } catch (parseError) {
+            throw new Error('Invalid JSON response from server');
+        }
+
+        // Validate the data structure
+        if (!data || !Array.isArray(data.data)) {
+            throw new Error('Invalid data structure received');
+        }
+
         return data.data;
     } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
+        // Re-throw the error to be handled by the calling code
+        throw error;
     }
 }
 
@@ -54,6 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Fetch data when page loads
         clauseData = await fetchClauseData();
         
+        if (!clauseData || clauseData.length === 0) {
+            throw new Error('No data received from server');
+        }
+        
         // Restore search section after data is loaded
         searchSection.innerHTML = `
             <input type="text" 
@@ -69,7 +93,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Search functionality
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
             if (searchTerm.length < 1) {
                 searchResults.innerHTML = '';
                 return;
@@ -78,13 +103,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             simulateLoading();
             
             setTimeout(() => {
+                
                 const filteredResults = clauseData
-                    .filter(item => 
-                        item[0].toLowerCase().includes(searchTerm) || // Clause number
-                        item[1].toLowerCase().includes(searchTerm)    // Zone name
-                    )
+                    .filter(item => {
+                        const clauseMatch = item[0].toString().toLowerCase().includes(searchTerm);
+                        const zoneMatch = item[1].toString().toLowerCase().includes(searchTerm);
+                        const abbreviationMatch = item[2].toString().toLowerCase().includes(searchTerm);
+                        
+                        return clauseMatch || zoneMatch || abbreviationMatch;
+                    })
                     .slice(0, 5);
-
                 displaySearchResults(filteredResults);
             }, 300);
         });
@@ -109,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 resultItem.innerHTML = `
                     <div class="item-info">
                         <strong>${item[0]}</strong>
-                        <span class="category">${item[1]}</span>
+                        <span class="category">${item[1]} (${item[2]})</span>
                     </div>
                     <div class="item-description">${item[3]}</div>
                     ${isSelected ? '<span class="selected-tick">✓</span>' : ''}
@@ -214,7 +242,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     toastr.success('Table copied to clipboard!', 'Success');
                 })
                 .catch(err => {
-                    console.error('Failed to copy: ', err);
                     toastr.error('Failed to copy table to clipboard', 'Error');
                 });
         });
@@ -246,10 +273,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         searchSection.innerHTML = `
             <div class="error-state">
-                <p>Unable to load planning clauses. Please try refreshing the page.</p>
+                <p>Unable to load planning clauses: ${error.message}</p>
                 <button onclick="window.location.reload()">Refresh Page</button>
             </div>
         `;
-        console.error('Error loading data:', error);
     }
 }); 
