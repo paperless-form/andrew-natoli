@@ -3,31 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Search & Table Builder</title>
+    <title>Planning Stat: A Tool to Write Better Permits</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1>PLANNING STAT: A TOOL TO WRITE BETTER PERMITS</h1>
+            <p>Amendments to the <em>Planning and Environment Regulations 2015</em> have changed the way permits are written. Here is a tool to help you write better permits.</p>
+            
+            <div class="info-text">
+                <p>On 1 December 2024, amendments to the <em>Planning and Environment Regulations 2015</em> (<span class="highlight">the Regulations</span>) commenced. The amendments introduced new forms (4, 5, 7, 9, 10, 11 and 12) and changed the way responsible authorities document decisions to grant or refuse permissions under planning schemes.</p>
+                
+                <p>The amended forms now include tables into which decision makers to specify the clause of the relevant permit requirement and matter for which a permit is required (<span class="highlight">the Permissions Table</span>).</p>
+                
+                <p>The logic of the changes are explained the recently re-written <a href="#" class="link">Writing Planning Permits</a> (May 2023) guide (<span class="highlight">the Guide</span>) issued by the DTP. The Guide, including the recent changes, were prepared by Equipe with Helen Gibson AM and Peter Allen PSM for DTP.</p>
+                
+                <p>Equipe have developed a tool to help you easily build a Permissions Table. We hope it helps.</p>
+            </div>
+        </div>
+        
         <div class="search-section">
             <input type="text" 
                    id="searchInput" 
-                   placeholder="Search products by name or category..."
-                   aria-label="Search products">
+                   placeholder="Search clauses (e.g., 43.02)..."
+                   aria-label="Search clauses">
             <div id="searchResults" class="search-results"></div>
         </div>
         
         <div class="built-table-section">
-            <h3><i class="fas fa-table"></i> Your Selected Products</h3>
+            <h3>Your Permissions Table:</h3>
             <div id="builtTable"></div>
             <div class="table-controls">
-                <button id="copyButton">
-                    <i class="fas fa-copy"></i> Copy to Clipboard
-                </button>
-                <button id="clearButton">
-                    <i class="fas fa-trash"></i> Clear Table
-                </button>
+                <button id="copyButton">Copy this table</button>
+                <button id="clearButton">Clear table</button>
             </div>
         </div>
     </div>
