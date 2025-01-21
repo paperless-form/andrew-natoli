@@ -157,7 +157,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const lastRow = document.querySelector('tbody tr:last-child');
                 if (lastRow) {
                     lastRow.classList.add('highlight-new');
-                    // Remove highlight after animation
                     setTimeout(() => {
                         lastRow.classList.remove('highlight-new');
                     }, 2000);
@@ -167,7 +166,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const filteredResults = clauseData
                     .filter(item => 
                         item[0].toLowerCase().includes(searchTerm) || 
-                        item[1].toLowerCase().includes(searchTerm)
+                        item[1].toLowerCase().includes(searchTerm) ||
+                        item[2].toLowerCase().includes(searchTerm)
                     )
                     .slice(0, 5);
                 displaySearchResults(filteredResults);
@@ -225,7 +225,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const filteredResults = clauseData
                 .filter(item => 
                     item[0].toLowerCase().includes(searchTerm) || 
-                    item[1].toLowerCase().includes(searchTerm)
+                    item[1].toLowerCase().includes(searchTerm) ||
+                    item[2].toLowerCase().includes(searchTerm)
                 )
                 .slice(0, 5);
             displaySearchResults(filteredResults);
@@ -256,7 +257,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const filteredResults = clauseData
                 .filter(item => 
                     item[0].toLowerCase().includes(searchTerm) || 
-                    item[1].toLowerCase().includes(searchTerm)
+                    item[1].toLowerCase().includes(searchTerm) ||
+                    item[2].toLowerCase().includes(searchTerm)
                 )
                 .slice(0, 5);
             displaySearchResults(filteredResults);
