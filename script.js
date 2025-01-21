@@ -110,13 +110,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="item-info">
                         <strong>${item[0]}</strong>
                         <span class="category">${item[1]}</span>
-                        ${isSelected ? '<span class="selected-tick">✓</span>' : ''}
                     </div>
                     <div class="item-description">${item[3]}</div>
+                    ${isSelected ? '<span class="selected-tick">✓</span>' : ''}
                 `;
-                if (!isSelected) {
-                    resultItem.addEventListener('click', () => addToTable(item));
-                }
+                resultItem.addEventListener('click', () => addToTable(item));
                 searchResults.appendChild(resultItem);
             });
         }
@@ -190,8 +188,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Remove item from table
         window.removeItem = (index) => {
+            const removedItem = selectedItems[index];
             selectedItems.splice(index, 1);
             updateBuiltTable();
+            toastr.warning(`Clause ${removedItem[0]} removed from table`, 'Removed');
             // Refresh search results to update tick marks
             const searchTerm = searchInput.value.toLowerCase();
             const filteredResults = clauseData
@@ -209,13 +209,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 `${item[0]}\t${item[3]}`
             ).join('\n');
             
-            navigator.clipboard.writeText(tableData);
+            navigator.clipboard.writeText(tableData)
+                .then(() => {
+                    toastr.success('Table copied to clipboard!', 'Success');
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    toastr.error('Failed to copy table to clipboard', 'Error');
+                });
         });
 
         // Update the clear button event listener
         clearButton.addEventListener('click', () => {
             selectedItems = [];
             updateBuiltTable();
+            toastr.info('Table has been cleared', 'Cleared');
             // Refresh search results to update tick marks
             const searchTerm = searchInput.value.toLowerCase();
             const filteredResults = clauseData

@@ -95,6 +95,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
+    padding-right: 3rem; /* Add space for the tick */
 }
 
 .result-item:hover {
@@ -347,7 +349,10 @@ tr.highlight-new td {
     color: #28a745;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-left: 8px;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .result-item:has(.selected-tick) {
