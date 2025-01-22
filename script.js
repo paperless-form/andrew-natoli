@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchSection.innerHTML = `
             <input type="text" 
                    id="searchInput" 
-                   placeholder="Search clauses (e.g., 43.02)..."
+                   placeholder="Search for clauses by number (e.g. 43.02), name (e.g. 'Commercial Zone') or abbreviation (e.g. 'DDO')"
                    aria-label="Search clauses">
             <div id="searchResults" class="search-results"></div>
         `;
@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const thead = document.createElement('thead');
             thead.innerHTML = `
                 <tr>
-                    <th>Clause</th>
-                    <th>Description</th>
-                    <th>Action</th>
+                    <th>Planning scheme clause</th>
+                    <th>Matter for which a permit is required</th>
+                    <th></th>
                 </tr>
             `;
             table.appendChild(thead);
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             selectedItems.forEach((item, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item[0]}</td>
+                    <td>Clause ${item[0]}</td>
                     <td>${item[3]}</td>
                     <td>
                         <button onclick="removeItem(${index})">Remove</button>
