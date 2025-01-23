@@ -1,7 +1,7 @@
 // Function to fetch data from the Google Apps Script
 async function fetchClauseData() {
     try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbzd7N3r6wgHPtx6VgwPlAyYQNna5cHHHPtimXnbhsqXFcsKZHRU6jKouC4tWwuXERk/exec');
+        const response = await fetch('https://script.google.com/macros/s/AKfycbx4Cdv-wEQ4zIkqfkJwfzswXDJFneBj-qddsCgfc8kWF50O9gW35PA5Jk6TOBpdbe3k/exec');
         
         // Check if response is ok
         if (!response.ok) {
